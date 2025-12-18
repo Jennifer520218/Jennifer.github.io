@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        body {
+            background-color: #fdf2f8; /* 浅粉色背景，更柔和 */
+            line-height: 1.6;
+            transition: background-color 0.3s ease; /* 主题切换过渡 */
+        }
+        /* 网格布局容器 */
+        .resume-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-areas: 
+                "header header"
+                "sidebar main"
+                "footer footer";
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 0 25px rgba(240, 183, 202, 0.2); /* 粉色柔和阴影 */
+            background: #fff;
+            border-radius: 16px; /* 更大圆角，更温柔 */
+            overflow: hidden; /* 裁剪圆角 */
+        }
+        /* 头部区域 */
+        .header {
+            grid-area: header;
+            background: linear-gradient(120deg, #fef7fb, #e8f4f8); /* 粉蓝渐变 */
+            color: #2d3748;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #fbb6ce, #90cdf4); /* 装饰线条 */
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        .header p {
+            font-size: 1.2rem;
+            color: #718096;
+        }
+        /* 侧边栏 */
+        .sidebar {
+            grid-area: sidebar;
+            background: #f8f9fa; /* 浅灰白，更清新 */
+            color: #2d3748;
+            padding: 30px;
+            border-right: 1px solid #f0e6ed; /* 柔和分隔线 */
+        }
+        .sidebar .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 5px solid #fef7fb; /* 浅粉边框 */
+            box-shadow: 0 4px 12px rgba(240, 183, 202, 0.15); /* 头像柔和阴影 */
+        }
+        .sidebar .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .sidebar h2 {
+            color: #9f7aea; /* 温柔紫，作为标题色 */
+            border-bottom: 2px solid #f0e6ed;
+            padding-bottom: 10px;
+            margin: 20px 0 15px;
+            font-weight: 500;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            margin: 10px 0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar li::before {
+            content: "🌸"; /* 小图标装饰，更贴合女生审美 */
+            font-size: 0.8rem;
+        }
+        /* 主内容区 */
+        .main {
+            grid-area: main;
+            padding: 30px;
+            background: #fff;
+        }
+        .main section {
+            margin-bottom: 30px;
+        }
+        .main h2 {
+            color: #9f7aea; /* 与侧边栏标题统一 */
+            border-left: 5px solid #fbb6ce; /* 粉色侧边线 */
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .experience-item, .award-item {
+            background: linear-gradient(180deg, #fef7fb, #f5fafe); /* 粉蓝渐变背景 */
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px; /* 圆润边角 */
+            transition: all 0.3s ease; /* 过渡更丝滑 */
+            border: 1px solid #f0e6ed; /* 柔和边框 */
+        }
+        .experience-item:hover, .award-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(240, 183, 202, 0.18); /* 更柔和的hover阴影 */
+            border-color: #fbb6ce; /* hover时边框变色 */
+        }
+        .experience-item h3, .award-item h3 {
+            color: #e53e3e; /* 温柔红，突出标题 */
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .time {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 6px; /* 时间标签圆角 */
+        }
+        /* 页脚 */
+        .footer {
+            grid-area: footer;
+            background: linear-gradient(120deg, #e8f4f8, #fef7fb); /* 与头部呼应 */
+            color: #4a5568;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #f0e6ed;
+        }
+        /* 按钮交互样式 */
+        .toggle-btn {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #fbb6ce, #90cdf4); /* 渐变按钮 */
+            color: white;
+            border: none;
+            border-radius: 20px; /* 胶囊按钮 */
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(240, 183, 202, 0.2);
+        }
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(240, 183, 202, 0.3);
+            background: linear-gradient(90deg, #f892b0, #6bb1e8); /* hover加深渐变 */
+        }
+        /* 暗黑主题适配（女生向柔和暗黑） */
+        body.dark {
+            background-color: #2d3748;
+            color: #f7fafc;
+        }
+        body.dark .resume-container {
+            background: #1a202c;
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.2);
+        }
+        body.dark .header, body.dark .footer {
+            background: linear-gradient(120deg, #2d3748, #4a5568);
+            color: #f7fafc;
+        }
+        body.dark .sidebar {
+            background: #2d3748;
+            border-right-color: #4a5568;
+            color: #f7fafc;
+        }
+        body.dark .main {
+            background: #1a202c;
+        }
+        body.dark .experience-item, body.dark .award-item {
+            background: linear-gradient(180deg, #2d3748, #4a5568);
+            border-color: #4a5568;
+            color: #f7fafc;
+        }
+        body.dark .time {
+            background: #4a5568;
+            color: #f7fafc;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .resume-container {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "sidebar"
+                    "main"
+                    "footer";
+                margin: 10px;
+                border-radius: 12px;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #f0e6ed;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- 头部 -->
+        <header class="header">
+            <h1>李燕芬</h1> <!-- 改为更贴合女生的名字 -->
+            <p>前端开发爱好者 | 计算机专业</p>
+            <button class="toggle-btn" id="toggleTheme">切换主题</button>
+        </header>
+
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="avatar">
+                <img src="C:\Users\hans\Desktop\aed1c430726c489d5202b7f3a6b58b74.jpg" alt="个人头像">
+            </div>
+            <h2>基本信息</h2>
+            <ul>
+                <li>性别：女</li>
+                <li>年龄：22</li>
+                <li>电话：13800138000</li>
+                <li>邮箱：liyue@example.com</li>
+                <li>地址：辽宁省大连市</li>
+            </ul>
+            <h2>技能掌握</h2>
+            <ul>
+                <li>HTML5/CSS3 熟练</li>
+                <li>JavaScript 基础</li>
+                <li>Grid/Flex 布局</li>
+                <li>Git/GitHub 协作</li>
+            </ul>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="main">
+            <section class="experience">
+                <h2>实习经历</h2>
+                <div class="experience-item">
+                    <h3>前端开发实习生 - XX科技有限公司</h3>
+                    <p class="time">2024.07 - 2024.09</p>
+                    <p>参与公司官网的页面重构，使用HTML5+CSS3实现响应式布局；协助开发内部管理系统的前端模块，运用JavaScript实现表单验证等交互功能。</p>
+                </div>
+                <div class="experience-item">
+                    <h3>Web开发兼职 - XX工作室</h3>
+                    <p class="time">2023.12 - 2024.05</p>
+                    <p>为小型企业制作展示型网站，使用Grid布局完成页面结构搭建，添加简单的轮播图、弹窗等交互效果，提升网站的用户体验。</p>
+                </div>
+            </section>
+
+            <section class="awards">
+                <h2>获奖情况</h2>
+                <div class="award-item">
+                    <h3>校级前端开发竞赛 一等奖</h3>
+                    <p class="time">2024.06</p>
+                    <p>基于HTML/CSS/JavaScript开发个人作品集网站，凭借良好的布局设计和交互效果获得竞赛一等奖。</p>
+                </div>
+                <div class="award-item">
+                    <h3>计算机专业综合奖学金 二等奖</h3>
+                    <p class="time">2023.10</p>
+                    <p>因专业课程成绩优异，综合测评排名前10%，获得校级二等奖学金。</p>
+                </div>
+            </section>
+
+            <section class="education">
+                <h2>教育背景</h2>
+                <div class="experience-item">
+                    <h3>大连海洋大学 - 计算机科学与技术</h3>
+                    <p class="time">2021.09 - 2025.06（在读）</p>
+                    <p>主修课程：HTML/CSS、JavaScript、计算机网络、数据结构等，专业GPA：3.8/4.0。</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2025 李燕芬的个人简历 | 本网站使用HTML5+CSS3+JavaScript开发</p>
+        </footer>
+    </div>
+
+    <script>
+        // 主题切换交互（优化为柔和暗黑主题）
+        const toggleBtn = document.getElementById('toggleTheme');
+        const body = document.body;
+        let isDark = false;
+
+        toggleBtn.addEventListener('click', () => {
+            if (isDark) {
+                body.classList.remove('dark');
+                toggleBtn.textContent = '切换主题';
+                isDark = false;
+            } else {
+                body.classList.add('dark');
+                toggleBtn.textContent = '恢复默认主题';
+                isDark = true;
+            }
+        });
+
+        // 页面加载完成的提示
+        window.onload = () => {
+            console.log('简历网站加载完成！');
+        };
+    </script>
+</body>
+</html>
